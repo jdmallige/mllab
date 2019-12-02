@@ -1,0 +1,34 @@
+import numpy as np
+import pandas as pd
+
+data = pd.DataFrame(pd.read_csv('Training_examples.csv'))
+concepts = np.array(data.iloc[:,:-1])
+target = np.array(data.iloc[:,-1])
+
+spec_h = concepts[0]
+gen_h =[['?' for i in range(len(spec_h))] for i in range(len(spec_h))]
+
+for i,h in enumerate(concepts):
+	if(target[i]=='yes'):
+		for x in range(len(spec_h)):
+			if(h[x]!=spec_h[x]):
+				gen_h[x][x]='?'
+				spec_h[x]='?'
+	else:
+		for x in range(len(spec_h)):
+			if(h[x]!=spec_h[x]):
+				gen_h[x][x]=spec_h[x]
+			else:	
+				gen_h[x][x]='?'
+	
+print(gen_h)
+print(spec_h)
+
+indexes = [ i for i,val in enumerate(gen_h) if val == ['?','?','?','?','?','?']]
+print(indexes)
+
+for i in indexes:
+	gen_h.remove(['?','?','?','?','?','?'])
+
+print (gen_h)
+

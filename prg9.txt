@@ -1,0 +1,22 @@
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+
+import numpy as np
+
+data = load_iris()
+
+train_data,test_data,train_target,test_target = train_test_split(data["data"],data["target"],train_size=0.67,test_size=0.33)
+
+arr = ["Setosa","Versicolor","Virginica"]
+
+classifier = KNeighborsClassifier(n_neighbors=3)
+
+classifier.fit(train_data,train_target)
+
+p = classifier.predict(test_data)
+
+for i in range(len(p)):
+    print("Original: " ,arr[test_target[i]], "\t Predicted: ",arr[p[i]])
+    
+print("Accuracy is: ", np.mean(p==test_target))
